@@ -32,21 +32,25 @@ run `dotnet build` from the root
 - [x] `goto` and `gosub` and named labels
 
 - [x] add keywords:
-  - print,
-  - if,
-  - then,
-  - goto,
-  - input,
-  - let,
-  - set,
-  - gosub,
-  - return,
-  - clear,
-  - list,
-  - run,
-  - end,
+  - [x] print,
+  - [x] if,
+  - [x] then,
+  - [x] goto,
+  - [x] input,
+  - [x] let,
+  - [x] set,
+  - [x] gosub,
+  - [x] return,
+  - [x] clear,
+  - [x] list,
+  - [x] run,
+  - [x] end,
 
-- [ ] implement string concatenation via `+` operator
+- [x] implement string concatenation via `+` operator
+
+- [x] add some example programs under `examples` folder
+- [x] use these for testing. run: `test.bat` or `test.sh` to run the entire
+      examples folder
 
 - [ ] Introduce anonymous label `@@:`
 
