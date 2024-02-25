@@ -60,17 +60,16 @@ developers and educators alike.
 
 # How to Build the BASM Project
 
-Building your BASM project can be accomplished in two primary ways depending on
+Building the BASM project can be accomplished in two primary ways depending on
 the tools and environment you're working with. Below are detailed instructions
 for both methods.
 
 ## Building with `bflat`
 
-The `bflat` compiler is a specialized tool designed for compiling BASM language
-projects. It simplifies the process, ensuring your BASM code is properly
-compiled into an executable format. Before proceeding, ensure you have the
-`bflat` compiler installed on your system. You can download and find
-installation instructions at [flattened.net](https://flattened.net/).
+The `bflat` compiler is a specialized tool designed for compiling C# projects to
+native code, resulting in very small executable sizes. Before proceeding, ensure
+you have the `bflat` compiler installed on your system. You can download and
+find installation instructions at [flattened.net](https://flattened.net/).
 
 ## On Mac and Linux
 
@@ -135,8 +134,8 @@ processes the project files.
 
 # Testing
 
-In the `examples folder` are some test programs. You can execute them all with
-the `test.bat` or `test.sh` script, depending on your platform.
+In the `examples folder` are several test programs. You can execute them all
+with the `test.bat` or `test.sh` script, depending on your platform.
 
 # TODO
 
