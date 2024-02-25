@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("basm")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b54e2e0b8d8cff013002b7d3509615fc7dca5663")]
 [assembly: System.Reflection.AssemblyProductAttribute("basm")]
 [assembly: System.Reflection.AssemblyTitleAttribute("basm")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
