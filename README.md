@@ -212,6 +212,8 @@ with the `test.bat` or `test.sh` script, depending on your platform.
 - [ ] introduce ffi to c to be able to call c functions
   - [ ] then get rid of intrinsics like `print` and `input` and use c functions
         instead
+  - [ ] start writing a standard library for different kinds of stuff: io, file
+        io, math etc.
 
 - [ ] get rid of the temporary tree walking interpreter an build a proper VM
   - [ ] produce an AST instead of directly interpreting the code
