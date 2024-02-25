@@ -174,6 +174,10 @@ with the `test.bat` or `test.sh` script, depending on your platform.
 - [x] use these for testing. run: `test.bat` or `test.sh` to run the entire
       examples folder
 
+- [ ] improve error reporting, provide line and column where the error occured-
+- [ ] implement error recovery so the compilation process does not stop at the
+      first error
+
 - [ ] Introduce anonymous label `@@:`
 
   - anonymous labels can appear as often as one likes
