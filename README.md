@@ -1,19 +1,142 @@
-# basm
+# BASM
 
-High level interpreted compile target
+The BASM programming language, short for "Basic Assembly," is designed to serve
+as a higher-level intermediate language that acts as a compilation target for
+various programming languages. BASM is both a compiler (to it's own IL) and a
+virtual machine (VM).
 
-# How to build
+# Design Philosophy
 
-## With `bflat`
+The BASM programming language is engineered with a distinct philosophy
+prioritizing ease of implementation and portability across platforms, while
+still achieving reasonable performance. This approach is guided by the Pareto
+principle, often referred to as the 80/20 rule, suggesting that with 20% of the
+effort, it's possible to attain 80% of the maximum achievable performance. This
+principle underlines BASM's design and operational goals, making it a unique
+player in the field of programming languages and virtual machines.
 
-[bflat](https://flattened.net/) compiler is required:
+BASM's primary objective is not to maximize efficiency at the cost of complexity
+or portability but to ensure that the language and its corresponding virtual
+machine can be easily implemented and ported across different platforms. This
+philosophy acknowledges the trade-offs between the ultimate performance and
+broader accessibility and usability of the language and its ecosystem.
 
-- Mac and Linux run `build.sh`
-- Windows run `build.bat`
+# Ease of Implementation
 
-## With C# compiler
+A core tenet of BASM is to reduce the complexity inherent in implementing both
+the compiler and the virtual machine. This simplicity facilitates quicker
+development cycles, easier maintenance, and the ability to extend the language
+and runtime environment with minimal effort. By focusing on straightforward
+implementation, BASM lowers the barrier to entry for developers looking to
+target new platforms or experiment with language design and compilation
+techniques.
 
-run `dotnet build` from the root
+# Portability
+
+Portability is a cornerstone of BASM's design. The language and VM are crafted
+to ensure that they can be easily adapted to various operating systems and
+hardware architectures. This flexibility allows BASM programs to run in diverse
+environments without necessitating significant alterations to the codebase,
+making BASM an attractive option for applications requiring cross-platform
+compatibility.
+
+# Performance Considerations
+
+While BASM emphasizes ease of implementation and portability, it also aims to
+deliver respectable performance. By achieving 80% of the potential performance
+with a fraction of the effort required for full optimization, BASM positions
+itself as sufficiently performant for a wide array of use cases. This level of
+efficiency is adequate for many applications, striking a balance between the
+resource-intensive pursuit of peak performance and the practical needs of
+software development.
+
+# Conclusion
+
+BASM distinguishes itself through its pragmatic approach to language design and
+virtual machine implementation. By prioritizing ease of implementation and
+portability, and acknowledging the practical trade-offs between optimal
+performance and broader usability, BASM offers a compelling toolset for
+developers and educators alike.
+
+# How to Build the BASM Project
+
+Building your BASM project can be accomplished in two primary ways depending on
+the tools and environment you're working with. Below are detailed instructions
+for both methods.
+
+## Building with `bflat`
+
+The `bflat` compiler is a specialized tool designed for compiling BASM language
+projects. It simplifies the process, ensuring your BASM code is properly
+compiled into an executable format. Before proceeding, ensure you have the
+`bflat` compiler installed on your system. You can download and find
+installation instructions at [flattened.net](https://flattened.net/).
+
+## On Mac and Linux
+
+1. Open a **Terminal Window**: Navigate to your project's root directory where
+   the `build.sh` script is located.
+2. **Grant Execution Permissions**: If you haven't already, ensure the
+   `build.sh` script is executable by running:
+
+```bash
+chmod +x build.sh
+```
+
+3. **Execute the Build Script**: Run the following command in the terminal:
+
+```bash
+./build.sh
+```
+
+This script will automatically clean the previous build, create a new build
+directory, and invoke the `bflat` compiler with the necessary options to compile
+the BASM project.
+
+## On Windows
+
+1. **Open Command Prompt**: Navigate to your project's root directory where the
+   `build.bat` script is located.
+2. **Execute the Build Script**: Run the following command in the command
+   prompt:
+
+```cmd
+.\build.bat
+```
+
+The `build.bat` script performs similar actions as its Linux/Mac counterpart,
+tailored for the Windows environment. It cleans up old builds and compiles the
+project using `bflat`.
+
+# Building with C# Compiler
+
+You can also utilize the dotnet build command.
+
+1. **Open a Terminal** or **Command Prompt**: Navigate to your project's root
+   directory where the `.csproj` or `.sln` file is located.
+2. `Execute the Build Command`: Run the following command:
+
+```cmd
+dotnet build
+```
+
+This command compiles the project, its dependencies, and produces a binary
+executable. `dotnet build` automatically restores any missing dependencies and
+processes the project files.
+
+### Note:
+
+- Ensure you have the `.NET SDK` installed on your system to use `dotnet`
+  commands. If you're unsure, you can check by running `dotnet --version` in
+  your terminal or command prompt.
+- For more detailed options and configurations for the `dotnet build` command,
+  you can refer to the official .NET documentation or use `dotnet build --help`
+  to explore available parameters.
+
+# Testing
+
+In the `examples folder` are some test programs. You can execute them all with
+the `test.bat` or `test.sh` script, depending on your platform.
 
 # TODO
 
