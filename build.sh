@@ -11,7 +11,7 @@ mkdir ./build
 
 # Your custom build command here
 echo "Building application..."
-bflat build -o ./build/basm.exe --no-reflection --no-stacktrace-data --no-globalization --no-exception-messages --no-pie --separate-symbols --no-debug-info
+bflat build -o ./build/basm --no-reflection --no-stacktrace-data --no-globalization --no-exception-messages --no-pie --separate-symbols --no-debug-info
 
 if [ $? -eq 0 ]; then
     echo "Build completed successfully!"
