@@ -10,7 +10,7 @@ public enum ValueType
 
 public class RuntimeValue
 {
-    public string Name { get; private set; }
+    public string Name { get; set; }
     public ValueType Type { get; set; }
     public string StringValue { get; set; }
     public int IntValue { get; set; }
@@ -25,5 +25,10 @@ public class RuntimeValue
         IntValue = intval;
         FloatValue = floatval;
         BoolValue = boolval;
+    }
+
+    public RuntimeValue Copy()
+    {
+        return new RuntimeValue(Type, Name, StringValue, IntValue, FloatValue, BoolValue);
     }
 }

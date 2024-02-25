@@ -1,0 +1,7 @@
+    let i = 3
+
+here:
+    print "Hello World!"
+    set i = i - 1
+
+    if i > 0 then goto here

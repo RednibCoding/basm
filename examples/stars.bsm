@@ -1,9 +1,10 @@
-PRINT "How many stars do you want"
-LET stars = 0
-INPUT stars
+    print "How many stars do you want"
+    let stars = 10
+    
+    print "Lets say you want 10:"
 
 again:
-IF stars == 0 THEN END
-PRINT "*"
-LET stars = stars - 1
-GOTO again
+    if stars == 0 then end
+    print "*"
+    set stars = stars - 1
+    goto again

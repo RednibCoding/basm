@@ -101,7 +101,7 @@ public class Lexer
                     token += input[i++];
                 }
 
-                tokens.Add(new Token(TokenType.S_LITERAL, token));
+                tokens.Add(new Token(TokenType.STRING, token));
                 token = string.Empty;
             }
 
@@ -133,18 +133,21 @@ public class Lexer
         switch (token)
         {
             // Keywords
-            case "PRINT": return TokenType.PRINT;
-            case "IF": return TokenType.IF;
-            case "THEN": return TokenType.THEN;
-            case "GOTO": return TokenType.GOTO;
-            case "INPUT": return TokenType.INPUT;
-            case "LET": return TokenType.LET;
-            case "GOSUB": return TokenType.GOSUB;
-            case "RETURN": return TokenType.RETURN;
-            case "CLEAR": return TokenType.CLEAR;
-            case "LIST": return TokenType.LIST;
-            case "RUN": return TokenType.RUN;
-            case "END": return TokenType.END;
+            case "print": return TokenType.PRINT;
+            case "input": return TokenType.INPUT;
+            case "if": return TokenType.IF;
+            case "true": return TokenType.BOOL;
+            case "false": return TokenType.BOOL;
+            case "goto": return TokenType.GOTO;
+            case "gosub": return TokenType.GOSUB;
+            case "let": return TokenType.LET;
+            case "set": return TokenType.SET;
+            case "return": return TokenType.RETURN;
+            case "clear": return TokenType.CLEAR;
+            case "list": return TokenType.LIST;
+            case "run": return TokenType.RUN;
+            case "then": return TokenType.THEN;
+            case "end": return TokenType.END;
 
             // Operators
             case "+": return TokenType.PLUS;

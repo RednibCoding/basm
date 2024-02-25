@@ -1,0 +1,13 @@
+    ; This code prints n fibonacci numbers
+    let a = 1
+    let b = 2
+    print "a: " + a
+    print "b: " + b
+
+    print "b = a + b"
+    set b = a + b
+    print "b: " + b
+
+    print "a = a + b * a"
+    set a = a + b * a
+    print "a: " + a + " b: " + b

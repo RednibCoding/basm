@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Basm;
 
 public class Parser
@@ -108,7 +110,7 @@ public class Parser
         }
 
         var val1 = value1.Type == ValueType.INT ? value1.IntValue : value1.FloatValue;
-        var val2 = value2.Type == ValueType.INT ? value1.IntValue : value1.FloatValue;
+        var val2 = value2.Type == ValueType.INT ? value2.IntValue : value2.FloatValue;
 
         switch (operatorType)
         {
@@ -152,11 +154,11 @@ public class Parser
         {
             case TokenType.LET:
                 {
-
                     eat(TokenType.LET);
-                    eat(TokenType.ID);
+                    var variableTok = eat(TokenType.ID);
                     eat(TokenType.ASSIGN);
-                    var rtValue = parseExpression();
+                    var rtValue = parseExpression().Copy();
+                    rtValue.Name = variableTok.Value;
                     symbolTable.CreateVariable(rtValue);
                     eat(TokenType.ENTER);
                     break;
@@ -165,10 +167,11 @@ public class Parser
             case TokenType.SET:
                 {
 
-                    eat(TokenType.LET);
-                    eat(TokenType.ID);
+                    eat(TokenType.SET);
+                    var varname = eat(TokenType.ID);
                     eat(TokenType.ASSIGN);
-                    var rtValue = parseExpression();
+                    var rtValue = parseExpression().Copy();
+                    rtValue.Name = varname.Value;
                     symbolTable.UpdateVariable(rtValue);
                     eat(TokenType.ENTER);
                     break;
@@ -293,15 +296,24 @@ public class Parser
     public string parseExprList()
     {
         string expr = string.Empty;
-        if (tokens[tokenIndex].Type == TokenType.S_LITERAL)
+        var rtValue = parseExpression();
+        if (rtValue != null)
         {
-            expr += tokens[tokenIndex].Value;
-            eat(TokenType.S_LITERAL);
-        }
-        else
-        {
-            var val = parseExpression();
-            expr += val.ToString();
+            switch (rtValue.Type)
+            {
+                case ValueType.INT:
+                    expr += rtValue.IntValue.ToString();
+                    break;
+                case ValueType.FLOAT:
+                    expr += rtValue.FloatValue.ToString(CultureInfo.InvariantCulture);
+                    break;
+                case ValueType.STRING:
+                    expr += rtValue.StringValue;
+                    break;
+                case ValueType.BOOL:
+                    expr += rtValue.BoolValue ? "true" : "false";
+                    break;
+            }
         }
 
         if (tokens[tokenIndex].Type == TokenType.COMMA)
@@ -359,6 +371,7 @@ public class Parser
             if (rtValue == null)
             {
                 Console.WriteLine($"identifier ${variableName} not found");
+                Environment.Exit(1);
             }
             else
             {
@@ -379,8 +392,26 @@ public class Parser
         else if (tokens[tokenIndex].Type == TokenType.FLOAT)
         {
             var numberToken = eat(TokenType.FLOAT);
-            var floatValue = float.Parse(numberToken.Value);
+            var floatValue = double.Parse(numberToken.Value, CultureInfo.InvariantCulture);
             var rtValue = new RuntimeValue(ValueType.FLOAT, "", floatval: floatValue);
+            return rtValue;
+        }
+
+        // STRING
+        else if (tokens[tokenIndex].Type == TokenType.STRING)
+        {
+            var stringToken = eat(TokenType.STRING);
+            var strValue = stringToken.Value;
+            var rtValue = new RuntimeValue(ValueType.STRING, "", strval: strValue);
+            return rtValue;
+        }
+
+        // BOOL
+        else if (tokens[tokenIndex].Type == TokenType.BOOL)
+        {
+            var numberToken = eat(TokenType.BOOL);
+            // var intValue = numberToken.Value == "true" ? 1 : 0;
+            var rtValue = new RuntimeValue(ValueType.BOOL, "", boolval: numberToken.Value == "true");
             return rtValue;
         }
 
@@ -406,13 +437,44 @@ public class Parser
                         return new RuntimeValue(ValueType.INT, "", intval: leftOperand.IntValue + rightOperand.IntValue);
                     case ValueType.FLOAT:
                         return new RuntimeValue(ValueType.FLOAT, "", floatval: leftOperand.IntValue + rightOperand.FloatValue);
+                    case ValueType.STRING:
+                        return new RuntimeValue(ValueType.STRING, "", strval: leftOperand.IntValue.ToString() + rightOperand.StringValue);
                 }
                 break;
             case ValueType.FLOAT:
-                return new RuntimeValue(ValueType.FLOAT, "", floatval: leftOperand.FloatValue +
-                    (rightOperand.Type == ValueType.INT ? rightOperand.IntValue : rightOperand.FloatValue));
+                switch (rightOperand.Type)
+                {
+                    case ValueType.INT:
+                        return new RuntimeValue(ValueType.FLOAT, "", floatval: leftOperand.FloatValue + rightOperand.IntValue);
+                    case ValueType.FLOAT:
+                        return new RuntimeValue(ValueType.FLOAT, "", floatval: leftOperand.FloatValue + rightOperand.FloatValue);
+                    case ValueType.STRING:
+                        return new RuntimeValue(ValueType.STRING, "", strval: leftOperand.FloatValue.ToString(CultureInfo.InvariantCulture) + rightOperand.StringValue);
+                }
+                break;
+
             case ValueType.STRING:
-                return new RuntimeValue(ValueType.STRING, "", strval: leftOperand.StringValue + rightOperand.StringValue);
+                switch (rightOperand.Type)
+                {
+                    case ValueType.INT:
+                        return new RuntimeValue(ValueType.STRING, "", strval: leftOperand.StringValue + rightOperand.IntValue.ToString());
+                    case ValueType.FLOAT:
+                        return new RuntimeValue(ValueType.STRING, "", strval: leftOperand.StringValue + rightOperand.FloatValue.ToString(CultureInfo.InvariantCulture));
+                    case ValueType.STRING:
+                        return new RuntimeValue(ValueType.STRING, "", strval: leftOperand.StringValue + rightOperand.StringValue);
+                    case ValueType.BOOL:
+                        return new RuntimeValue(ValueType.STRING, "", strval: leftOperand.StringValue + (rightOperand.BoolValue ? "true" : "false"));
+                }
+                break;
+
+            case ValueType.BOOL:
+                switch (rightOperand.Type)
+                {
+                    case ValueType.STRING:
+                        return new RuntimeValue(ValueType.STRING, "", strval: (leftOperand.BoolValue ? "true" : "false") + rightOperand.StringValue);
+                }
+                break;
+
         }
 
         throw new InvalidOperationException($"Operation + not supported between {leftOperand.Type} and {rightOperand.Type}");
@@ -425,14 +487,24 @@ public class Parser
         switch (leftOperand.Type)
         {
             case ValueType.INT:
-                if (rightOperand.Type == ValueType.INT)
-                    return new RuntimeValue(ValueType.INT, "", intval: leftOperand.IntValue - rightOperand.IntValue);
-                else if (rightOperand.Type == ValueType.FLOAT)
-                    return new RuntimeValue(ValueType.FLOAT, "", floatval: leftOperand.IntValue - rightOperand.FloatValue);
+                switch (rightOperand.Type)
+                {
+                    case ValueType.INT:
+                        return new RuntimeValue(ValueType.INT, "", intval: leftOperand.IntValue - rightOperand.IntValue);
+                    case ValueType.FLOAT:
+                        return new RuntimeValue(ValueType.FLOAT, "", floatval: leftOperand.IntValue - rightOperand.FloatValue);
+                }
                 break;
             case ValueType.FLOAT:
-                return new RuntimeValue(ValueType.FLOAT, "", floatval: leftOperand.FloatValue -
-                    (rightOperand.Type == ValueType.INT ? rightOperand.IntValue : rightOperand.FloatValue));
+                switch (rightOperand.Type)
+                {
+                    case ValueType.INT:
+                        return new RuntimeValue(ValueType.FLOAT, "", floatval: leftOperand.FloatValue - rightOperand.IntValue);
+                    case ValueType.FLOAT:
+                        return new RuntimeValue(ValueType.FLOAT, "", floatval: leftOperand.FloatValue - rightOperand.FloatValue);
+                }
+                break;
+
         }
 
         throw new InvalidOperationException($"Operation - not supported between {leftOperand.Type} and {rightOperand.Type}");
@@ -453,8 +525,15 @@ public class Parser
                 }
                 break;
             case ValueType.FLOAT:
-                return new RuntimeValue(ValueType.FLOAT, "", floatval: leftOperand.FloatValue *
-                    (rightOperand.Type == ValueType.INT ? rightOperand.IntValue : rightOperand.FloatValue));
+                switch (rightOperand.Type)
+                {
+                    case ValueType.INT:
+                        return new RuntimeValue(ValueType.FLOAT, "", floatval: leftOperand.FloatValue * rightOperand.IntValue);
+                    case ValueType.FLOAT:
+                        return new RuntimeValue(ValueType.FLOAT, "", floatval: leftOperand.FloatValue * rightOperand.FloatValue);
+                }
+                break;
+
         }
 
         throw new InvalidOperationException($"Operation * not supported between {leftOperand.Type} and {rightOperand.Type}");
@@ -465,23 +544,44 @@ public class Parser
         switch (leftOperand.Type)
         {
             case ValueType.INT:
-                if (rightOperand.Type == ValueType.INT)
+                switch (rightOperand.Type)
                 {
-                    if (rightOperand.IntValue == 0) throw new DivideByZeroException("Division by zero.");
-                    return new RuntimeValue(ValueType.INT, "", intval: leftOperand.IntValue / rightOperand.IntValue);
-                }
-                else if (rightOperand.Type == ValueType.FLOAT)
-                {
-                    if (rightOperand.FloatValue == 0) throw new DivideByZeroException("Division by zero.");
-                    return new RuntimeValue(ValueType.FLOAT, "", floatval: leftOperand.IntValue / rightOperand.FloatValue);
+                    case ValueType.INT:
+                        if (rightOperand.IntValue == 0)
+                        {
+                            Console.WriteLine("division by zero error");
+                            Environment.Exit(1);
+                        }
+                        return new RuntimeValue(ValueType.INT, "", intval: leftOperand.IntValue / rightOperand.IntValue);
+                    case ValueType.FLOAT:
+                        if (rightOperand.FloatValue == 0)
+                        {
+                            Console.WriteLine("division by zero error");
+                            Environment.Exit(1);
+                        }
+                        return new RuntimeValue(ValueType.FLOAT, "", floatval: leftOperand.IntValue / rightOperand.FloatValue);
                 }
                 break;
             case ValueType.FLOAT:
-                if ((rightOperand.Type == ValueType.INT && rightOperand.IntValue == 0) ||
-                    (rightOperand.Type == ValueType.FLOAT && rightOperand.FloatValue == 0))
-                    throw new DivideByZeroException("Division by zero.");
-                return new RuntimeValue(ValueType.FLOAT, "", floatval: leftOperand.FloatValue /
-                    (rightOperand.Type == ValueType.INT ? rightOperand.IntValue : rightOperand.FloatValue));
+                switch (rightOperand.Type)
+                {
+                    case ValueType.INT:
+                        if (rightOperand.IntValue == 0)
+                        {
+                            Console.WriteLine("division by zero error");
+                            Environment.Exit(1);
+                        }
+                        return new RuntimeValue(ValueType.FLOAT, "", floatval: leftOperand.FloatValue / rightOperand.IntValue);
+                    case ValueType.FLOAT:
+                        if (rightOperand.FloatValue == 0)
+                        {
+                            Console.WriteLine("division by zero error");
+                            Environment.Exit(1);
+                        }
+                        return new RuntimeValue(ValueType.FLOAT, "", floatval: leftOperand.FloatValue / rightOperand.FloatValue);
+                }
+                break;
+
         }
 
         throw new InvalidOperationException($"Operation / not supported between {leftOperand.Type} and {rightOperand.Type}");
@@ -540,7 +640,7 @@ public class Parser
                 }
                 else if (rtValue.Type == ValueType.FLOAT)
                 {
-                    return new RuntimeValue(to, rtValue.Name, strval: rtValue.FloatValue.ToString());
+                    return new RuntimeValue(to, rtValue.Name, strval: rtValue.FloatValue.ToString(CultureInfo.InvariantCulture));
                 }
                 else if (rtValue.Type == ValueType.BOOL)
                 {

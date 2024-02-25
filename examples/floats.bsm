@@ -1,0 +1,6 @@
+let i = 3
+here:
+    print "Yeah " + "nice " + i
+    set i = i - 1
+
+    if i > 0 then goto here

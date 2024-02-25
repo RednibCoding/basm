@@ -33,10 +33,9 @@ public class Program
 #else
         // For debugging, fill the fileContents
         fileContents = @"
-LET a = ""Lollo""
-label:
-PRINT ""Hello World!""
-; GOTO label
+    ; This code prints n fibonacci numbers
+    let a = 1
+    let b = a
 ";
 
 #endif

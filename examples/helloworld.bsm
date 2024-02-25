@@ -1,3 +1,0 @@
-pennor:
-PRINT "Hello World!"
-GOTO pennor

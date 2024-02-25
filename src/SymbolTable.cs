@@ -16,7 +16,7 @@ public class SymbolTable
         }
         else
         {
-            Console.WriteLine($"symbol ${rtValue.Name} already defined");
+            Console.WriteLine($"symbol {rtValue.Name} already defined");
             Environment.Exit(1);
         }
     }
@@ -33,7 +33,7 @@ public class SymbolTable
         }
         else
         {
-            Console.WriteLine($"symbol ${rtValue.Name} not found");
+            Console.WriteLine($"symbol {rtValue.Name} not found");
             Environment.Exit(1);
         }
     }

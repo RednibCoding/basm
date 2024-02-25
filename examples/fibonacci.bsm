@@ -1,13 +1,14 @@
-; This code prints n fibonacci numbers
-LET a = 0
-LET b = 1
-LET n = 10
+    ; This code prints n fibonacci numbers
+    let a = 0
+    let b = 1
+    let n = 10
+    let t = 0
 
 again:
-PRINT a
-LET t = b
-LET b = a + b
-LET a = t
-LET n = n - 1
-IF n == 0 THEN END
-GOTO again
+    print a
+    set t = b
+    set b = a + b
+    set a = t
+    set n = n - 1
+    if n == 0 then end
+    goto again

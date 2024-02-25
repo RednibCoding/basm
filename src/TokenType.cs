@@ -76,7 +76,6 @@ public enum TokenType
     FLOAT,
     BOOL,
     STRING,
-    S_LITERAL,
     FUNC,
     LABEL,
 
