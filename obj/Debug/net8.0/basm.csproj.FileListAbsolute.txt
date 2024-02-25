@@ -1,0 +1,14 @@
+C:\Users\mlb\Documents\DEV\PROJECTS\basm\bin\Debug\net8.0\basm.exe
+C:\Users\mlb\Documents\DEV\PROJECTS\basm\bin\Debug\net8.0\basm.deps.json
+C:\Users\mlb\Documents\DEV\PROJECTS\basm\bin\Debug\net8.0\basm.runtimeconfig.json
+C:\Users\mlb\Documents\DEV\PROJECTS\basm\bin\Debug\net8.0\basm.dll
+C:\Users\mlb\Documents\DEV\PROJECTS\basm\bin\Debug\net8.0\basm.pdb
+C:\Users\mlb\Documents\DEV\PROJECTS\basm\obj\Debug\net8.0\basm.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mlb\Documents\DEV\PROJECTS\basm\obj\Debug\net8.0\basm.AssemblyInfoInputs.cache
+C:\Users\mlb\Documents\DEV\PROJECTS\basm\obj\Debug\net8.0\basm.AssemblyInfo.cs
+C:\Users\mlb\Documents\DEV\PROJECTS\basm\obj\Debug\net8.0\basm.csproj.CoreCompileInputs.cache
+C:\Users\mlb\Documents\DEV\PROJECTS\basm\obj\Debug\net8.0\basm.dll
+C:\Users\mlb\Documents\DEV\PROJECTS\basm\obj\Debug\net8.0\refint\basm.dll
+C:\Users\mlb\Documents\DEV\PROJECTS\basm\obj\Debug\net8.0\basm.pdb
+C:\Users\mlb\Documents\DEV\PROJECTS\basm\obj\Debug\net8.0\basm.genruntimeconfig.cache
+C:\Users\mlb\Documents\DEV\PROJECTS\basm\obj\Debug\net8.0\ref\basm.dll

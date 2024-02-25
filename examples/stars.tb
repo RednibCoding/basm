@@ -1,0 +1,9 @@
+PRINT "How many stars do you want"
+LET stars = 0
+INPUT stars
+
+again:
+IF stars == 0 THEN END
+PRINT "*"
+LET stars = stars - 1
+GOTO again
