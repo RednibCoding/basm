@@ -92,3 +92,6 @@ run `dotnet build` from the root
   - [ ] design an instruction set for our VM
   - [ ] write a code generator that traverses the AST and produces bytecode
   - [ ] write the actual VM that executes these instructions
+
+- [ ] write a simple vs code extension for syntax highlighting
+- [ ] write a language server for linting in vs code
